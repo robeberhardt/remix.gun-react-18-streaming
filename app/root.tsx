@@ -39,7 +39,7 @@ export let loader: LoaderFunction = async ({ params, request, context }) => {
   let { RemixGunContext } = context as LoadCtx;
   let { ENV, gun, auth, SEA } = RemixGunContext(Gun, request);
   let app = auth.getMasterUser();
-  let meta = await app.get("pages").get("root").get("meta").then();
+  let meta = await gun.get("pages").get("root").get("meta").then();
   let { radisk, peers, localStorage } = (gun as any).back("opt");
   let gunOpts = {
     peers: Object.keys(peers).map((key) => key),
