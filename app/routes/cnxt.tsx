@@ -9,6 +9,7 @@ import {
   useCatch,
   AppData,
   Link,
+  Outlet,
 } from "remix";
 import { useDeferedLoaderData } from "~/dataloader/lib";
 import { useIf } from "bresnow_utility-react-hooks";
@@ -21,7 +22,7 @@ import invariant from "@remix-run/react/invariant";
 import BrowserWindow from "~/components/Browser";
 import React from "react";
 import Avatar from "~/components/Avatar";
-import { AppWindow, SectionTitle, Tag } from ".";
+import { SectionTitle, Tag } from ".";
 
 const noop = () => {};
 type ErrObj = {
@@ -98,6 +99,17 @@ export default function CNXTRoute() {
       {/* <DiagonalSection useLoaderData={useLoaderData} /> */}
       <AppWindow />
     </>
+  );
+}
+export function AppWindow() {
+  return (
+    <div className="p-8 w-full h-full flex items-center justify-center rounded-lg">
+      <div className="shadow-lg w-full flex items-start justify-start flex-col  rounded-lg">
+        <div className="w-full mx-auto rounded-lg">
+          <Outlet />
+        </div>
+      </div>
+    </div>
   );
 }
 export function DiagonalSection({
