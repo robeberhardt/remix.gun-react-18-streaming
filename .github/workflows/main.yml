@@ -49,7 +49,7 @@ jobs:
           docker service update remix-gun_peer --image=bresnow/rmx-gun:${{ env.VERSION }}
       - name: "Logs"
         run: |
-          docker service logs rmx-gun_fltngmmth
+          docker service logs remix-gun_fltngmmth
       #          # docker stack rm rmx-gun
       - name: Clean Up
         run: |
