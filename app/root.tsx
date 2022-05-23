@@ -39,15 +39,6 @@ export let loader: LoaderFunction = async ({ params, request, context }) => {
   let { RemixGunContext } = context as LoadCtx;
   let { ENV, gun, auth, SEA } = RemixGunContext(Gun, request);
   let app = auth.getMasterUser();
-  let session = await getSession(request.headers.get("Cookie"));
-  let USER_KEYS = session.get("key_pair");
-  let USER_INFO = session.get("user_info");
-  if (USER_KEYS && USER_INFO) {
-    try {
-      await auth.keyPairAuth(USER_KEYS);
-    } catch (error) {}
-  }
-
   let meta = await app.get("pages").get("root").get("meta").then();
   let { radisk, peers, localStorage } = (gun as any).back("opt");
   let gunOpts = {

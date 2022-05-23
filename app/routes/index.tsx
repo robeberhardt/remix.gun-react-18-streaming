@@ -99,7 +99,6 @@ export default function Index() {
       <WelcomeCard />
       <BrowserWindow />
       <Tag color={"green"} filled={true} label="Positive Green" />
-      {/* <AppWindow /> */}
     </>
   );
 }
@@ -107,9 +106,7 @@ export function AppWindow() {
   return (
     <div className="p-8 w-full h-full flex items-center justify-center rounded-lg">
       <div className="shadow-lg w-full flex items-start justify-start flex-col  rounded-lg">
-        <div className="w-full mx-auto rounded-lg">
-          <Outlet />
-        </div>
+        <div className="w-full mx-auto rounded-lg"></div>
       </div>
     </div>
   );
