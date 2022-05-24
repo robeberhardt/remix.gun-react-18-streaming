@@ -97,21 +97,17 @@ export default function CNXTRoute() {
         node={<Tag color={"gray"} filled={false} label="#JUSTTAGIT" />}
       />
       {/* <DiagonalSection useLoaderData={useLoaderData} /> */}
-      <AppWindow />
+      <div className="p-8 w-full h-full flex items-center justify-center rounded-lg">
+        <div className="shadow-lg w-full flex items-start justify-start flex-col  rounded-lg">
+          <div className="w-full mx-auto rounded-lg">
+            <Outlet />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
-export function AppWindow() {
-  return (
-    <div className="p-8 w-full h-full flex items-center justify-center rounded-lg">
-      <div className="shadow-lg w-full flex items-start justify-start flex-col  rounded-lg">
-        <div className="w-full mx-auto rounded-lg">
-          <Outlet />
-        </div>
-      </div>
-    </div>
-  );
-}
+
 export function DiagonalSection({
   useLoaderData,
 }: {

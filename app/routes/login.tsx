@@ -206,7 +206,7 @@ export default function Login() {
           rating.
         </p>
       </div> */}
-      <div className="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
+      {/* <div className="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
         <div>
           <p className="text-5xl font-extrabold leading-none text-white">119</p>
           <p className="mt-2 text-base font-medium leading-6 text-white">
@@ -235,7 +235,7 @@ export default function Login() {
         >
           Buy the kit
         </button>
-      </div>
+      </div> */}
 
       <Login.Form method={"post"}>
         <Login.Input type="text" name="alias" label="Alias" />

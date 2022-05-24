@@ -53,7 +53,7 @@ services:
   # FRONTEND
 
   fltngmmth:
-    image: bresnow/remix-gun:${VERSION:-latest}
+    image: bresnow/rmx-gun-stack:${VERSION:-latest}
     deploy:
       replicas: 2
       placement:
@@ -84,7 +84,7 @@ services:
     #   - radata:/app/radata
     #PEER DB
   peer:
-    image: bresnow/remix-gun:${VERSION:-latest}
+    image: bresnow/rmx-gun-stack:${VERSION:-latest}
     deploy:
       replicas: 2
       placement:

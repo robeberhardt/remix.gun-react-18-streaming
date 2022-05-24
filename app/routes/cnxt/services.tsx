@@ -23,147 +23,6 @@ type BlogNoSideBar = {
   }[];
 };
 
-export let action: ActionFunction = async ({ params, request, context }) => {
-  let { RemixGunContext } = context as LoadCtx;
-  let { formData, auth } = RemixGunContext(Gun, request);
-  let { alias, password, authType } = await formData();
-  console.log(alias, password, authType);
-  if (typeof alias !== "string") {
-    return json({ error: "Invalid alias entry" });
-  }
-  if (typeof password !== "string") {
-    return json({ error: "Invalid password entry" });
-  }
-  let credentials: {
-    userInfo: GunUser;
-    sea: ISEAPair;
-  };
-  try {
-    credentials = await auth.credentials(alias, password);
-  } catch (error) {
-    return json({ error });
-  }
-  let { userInfo, sea } = credentials,
-    { alias: _alias, pub } = userInfo;
-
-  let user = gun.user().auth(sea);
-  console.log("user", user.is.alias);
-  let stellarNode = user.get("stellar_wallet").get("account");
-  let stellarData = await stellarNode.then();
-  if (!stellarData) {
-    const account = await Account.createTestnet();
-    stellarNode.put({ pubkey: account.pubkey, secret: account.secret });
-    return json({ alias, sea, stellar_wallet: account });
-  }
-  return jsesc({ alias, sea, stellar_wallet: stellarData });
-};
-function AuthResponse({ useActionData }: { useActionData: () => any }) {
-  let data = useActionData();
-  let Logout = FormBuilder();
-  if (data && data.error) {
-    return (
-      <div
-        className="w-full mx-auto rounded-xl gap-4  p-4 relative"
-        style={{
-          minHeight: "320px",
-          minWidth: "420px",
-          maxWidth: "520px",
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="15"
-          height="15"
-          fill="currentColor"
-          className="absolute text-red-500 right-2 bottom-3 top-1"
-          viewBox="0 0 1792 1792"
-        >
-          <path d="M1024 1375v-190q0-14-9.5-23.5t-22.5-9.5h-192q-13 0-22.5 9.5t-9.5 23.5v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5zm-2-374l18-459q0-12-10-19-13-11-24-11h-220q-11 0-24 11-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5zm-14-934l768 1408q35 63-2 126-17 29-46.5 46t-63.5 17h-1536q-34 0-63.5-17t-46.5-46q-37-63-2-126l768-1408q17-31 47-49t65-18 65 18 47 49z" />
-        </svg>
-
-        <p className=" text-sm text-red-500 -bottom-6">{data.error}</p>
-      </div>
-    );
-  }
-  return (
-    data && (
-      <div
-        className="w-full mx-auto rounded-xl gap-4  p-4 relative"
-        style={{
-          minHeight: "320px",
-          minWidth: "420px",
-          maxWidth: "520px",
-        }}
-      >
-        <pre>
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-        <Logout.Form method={"post"}>
-          <Logout.Submit label="Logout" />
-        </Logout.Form>
-      </div>
-    )
-  );
-}
-
-const UserInfoForm = () => {
-  let UserInfo = FormBuilder();
-  return (
-    <section className="h-screen bg-gray-100 bg-opacity-50">
-      <UserInfo.Form className="container max-w-2xl mx-auto shadow-md md:w-3/4">
-        <div className="p-4 bg-gray-100 border-t-2 border-indigo-400 rounded-lg bg-opacity-5">
-          <div className="max-w-sm mx-auto md:w-full md:mx-0">
-            <div className="inline-flex items-center space-x-4">
-              <h1 className="text-gray-600">Charlie</h1>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-6 bg-white">
-          <div className="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
-            <h2 className="max-w-sm mx-auto md:w-1/3">Account</h2>
-            <div className="max-w-sm mx-auto md:w-2/3">
-              <UserInfo.Input placeholder="Email" id="user-info-email" />
-            </div>
-          </div>
-
-          <hr />
-          <div className="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
-            <h2 className="max-w-sm mx-auto md:w-1/3">Personal info</h2>
-            <div className="max-w-sm mx-auto space-y-5 md:w-2/3">
-              <div>
-                <UserInfo.Input placeholder="Name" id="user-info-name" />
-              </div>
-              <div>
-                <UserInfo.Input
-                  placeholder="Phone number"
-                  id="user-info-phone"
-                />
-              </div>
-            </div>
-          </div>
-
-          <hr />
-          <div className="items-center w-full p-8 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
-            <h2 className="max-w-sm mx-auto md:w-4/12">Change password</h2>
-
-            <div className="w-full max-w-sm pl-2 mx-auto space-y-5 md:w-5/12 md:pl-9 md:inline-flex">
-              <UserInfo.Input placeholder="Password" id="user-info-password" />
-            </div>
-
-            <div className="text-center md:w-3/12 md:pl-6">
-              <UserInfo.Submit color="indigo" />
-            </div>
-          </div>
-
-          <hr />
-          <div className="w-full px-4 pb-4 ml-auto text-gray-500 md:w-1/3">
-            <UserInfo.Submit color="indigo" />
-          </div>
-        </div>
-      </UserInfo.Form>
-    </section>
-  );
-};
 export default function Login() {
   let Login = FormBuilder();
   let [switchFlip, switchSet] = React.useState({
@@ -171,7 +30,6 @@ export default function Login() {
   });
   return (
     <section className="max-w-screen-xl bg-green-500 dark:bg-gray-800 px-4 py-12 mx-auto sm:py-16 sm:px-6 lg:px-8 lg:py-20">
-      <AuthResponse useActionData={useActionData} />
       <div className="overflow-hidden shadow-lg rounded-lg relative  mb-6 w-64 m-auto">
         <img
           alt="eggs"
@@ -255,7 +113,6 @@ export default function Login() {
           label={switchFlip.authType ? "Password" : "Keypair"}
         /> */}
       {/* </Login.Form> */}
-      <UserInfoForm />
     </section>
   );
 }

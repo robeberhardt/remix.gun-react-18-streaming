@@ -37,7 +37,7 @@ export let loader: LoaderFunction = async ({ params, request, context }) => {
   let app = auth.getMasterUser();
   let data;
   try {
-    data = await gun.get("pages").get("index").then();
+    data = await app.get("pages").get("index").then();
   } catch (error) {
     data = { error };
   }

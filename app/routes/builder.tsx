@@ -208,7 +208,7 @@ export default function BuilderRoute() {
       >
         <SuspendedTest getData={testLoader.load} />
       </Suspense>
-      <script
+      {/* <script
         key={"USE_FX"}
         dangerouslySetInnerHTML={{
           __html: `
@@ -234,7 +234,7 @@ export default function BuilderRoute() {
             )}
             `,
         }}
-      />
+      /> */}
     </>
   );
 }
