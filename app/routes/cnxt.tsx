@@ -37,8 +37,6 @@ type LoadError = {
 export let loader: LoaderFunction = async ({ params, request, context }) => {
   let { RemixGunContext } = context as LoadCtx;
   let { auth, gun } = RemixGunContext(Gun, request);
-  let app = auth.getMasterUser();
-  console.log(await app.get("pages").get("cnxt").then(), "app");
   let data;
 
   data = await gun.get("pages").get("cnxt").then();
