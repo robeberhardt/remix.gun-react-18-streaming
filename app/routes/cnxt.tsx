@@ -38,11 +38,12 @@ export let loader: LoaderFunction = async ({ params, request, context }) => {
   let { RemixGunContext } = context as LoadCtx;
   let { auth, gun } = RemixGunContext(Gun, request);
   let app = auth.getMasterUser();
+  console.log(await app.get("pages").get("cnxt").then(), "app");
   let data;
-  try {
-    data = await gun.get("pages").get("cnxt").then();
-  } catch (error) {
-    data = { error };
+
+  data = await gun.get("pages").get("cnxt").then();
+  if (!data) {
+    data = { error: "NO DATA" };
   }
   return json(data);
 };
